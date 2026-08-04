@@ -1,0 +1,7 @@
+bedrock-agentcore
+langchain-core
+langchain-google-genai
+langsmith
+redis
+python-dotenv
+uvicorn
