@@ -1,53 +1,8 @@
-# AgentCore Project: EricaAgent
+# AgentCore Project
 
-This project was created with the [AgentCore CLI](https://github.com/aws/agentcore-cli) and is configured to run on **AWS Bedrock AgentCore**.
+This project was created with the [AgentCore CLI](https://github.com/aws/agentcore-cli).
 
-## 🚀 Custom Deployment & AWS Configuration
-
-### Dependencies
-The agent requires the following core dependencies (managed via `pyproject.toml` using `uv` and `hatchling`):
-- `langchain-google-genai` (For Google Gemini model integration)
-- `langchain-core` (Core LangChain primitives)
-- `redis` (For session history and memory storage via Upstash)
-- `boto3` (For fetching secrets from AWS Systems Manager)
-- `python-dotenv` (For local environment fallback testing)
-- `aws-opentelemetry-distro` & `opentelemetry-instrumentation-langchain >= 0.59.0` (Mandatory for AWS Lambda telemetry initialization)
-
-### Key Management & Security (AWS SSM)
-To avoid hardcoding sensitive API keys in source code (such as `agentcore.json`), this project uses **AWS Systems Manager (SSM) Parameter Store**.
-
-1. **Storage**: Keys are securely stored in AWS as `SecureString` parameters:
-   - `/erica/google-api-key`
-   - `/erica/redis-url`
-   - `/erica/langsmith-api-key`
-2. **Runtime Retrieval**: At runtime, `agent.py` uses `boto3` to fetch these parameters dynamically upon AWS Lambda initialization. 
-3. **Local Fallback**: For local development, if the agent cannot connect to AWS SSM, it gracefully falls back to loading keys from a root `.env` file (which is strictly excluded from version control via `.gitignore`).
-4. **Permissions**: The agent's AWS IAM Execution Role is granted the `AmazonSSMReadOnlyAccess` policy to allow decryption of the parameters.
-
-### Deployment Steps
-To manually configure and deploy this agent to AWS:
-
-1. **Initialize Secrets in AWS:**
-   ```bash
-   aws ssm put-parameter --name "/erica/google-api-key" --type "SecureString" --value "YOUR_KEY"
-   aws ssm put-parameter --name "/erica/redis-url" --type "SecureString" --value "YOUR_URL"
-   aws ssm put-parameter --name "/erica/langsmith-api-key" --type "SecureString" --value "YOUR_KEY"
-   ```
-
-2. **Deploy the Agent:**
-   ```powershell
-   agentcore.cmd deploy --yes
-   ```
-
-3. **Test the Live Agent:**
-   ```powershell
-   $SESSION = "erica-class-session-000000000000000001"
-   agentcore.cmd invoke --runtime EricaAgent --session-id $SESSION "Hello, my name is Anshul."
-   ```
-
----
-
-## Default AgentCore Project Structure
+## Project Structure
 
 ```
 my-project/
