@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "erica-agent"
+version = "0.1.0"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+"bedrock-agentcore",
+"langchain-core",
+"langchain-google-genai",
+"langsmith",
+"redis",
+"python-dotenv",
+"aws-opentelemetry-distro",
+"opentelemetry-instrumentation-langchain >= 0.59.0",
+"boto3",
+]
+
+[tool.uv]
+package = false
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]

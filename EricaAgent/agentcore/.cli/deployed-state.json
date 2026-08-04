@@ -1,0 +1,17 @@
+{
+  "targets": {
+    "default": {
+      "resources": {
+        "runtimes": {
+          "EricaAgent": {
+            "runtimeId": "EricaAgent_EricaAgent-gWtG0FEdEi",
+            "runtimeArn": "arn:aws:bedrock-agentcore:us-east-1:118490268011:runtime/EricaAgent_EricaAgent-gWtG0FEdEi",
+            "roleArn": "arn:aws:iam::118490268011:role/AgentCore-EricaAgent-defa-ApplicationAgentEricaAgen-wq80HKYlI4Qd"
+          }
+        },
+        "stackName": "AgentCore-EricaAgent-default",
+        "deployHash": "8ec5654cace16218"
+      }
+    }
+  }
+}
