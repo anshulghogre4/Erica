@@ -10,7 +10,7 @@ from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.messages import HumanMessage, message_to_dict, messages_from_dict
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import RunnableLambda
-
+from observability import observe_input, observe_output
 
 # Load local .env file (for local execution fallback)
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), "../../.env"))
@@ -78,12 +78,16 @@ def run_agent(payload):
     user_input = payload["user_input"]
 
     history = load_history(thread_id)
+    run_config = observe_input(len(history.messages))
     response = chat_chain.invoke(
         {
             "history": history.messages,
             "user_input": user_input,
-        }
+        },
+        config=run_config
     )
+
+    observe_output(response.content)
 
     save_message(thread_id, HumanMessage(content=user_input))
     save_message(thread_id, response)
